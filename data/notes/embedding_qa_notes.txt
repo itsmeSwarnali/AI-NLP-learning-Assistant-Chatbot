@@ -1,0 +1,94 @@
+Embedding Q&A Notes for RAG Chatbot
+
+Question: What is an embedding?
+Answer: An embedding is a numerical vector representation of text. It converts words, sentences, or documents into numbers so computers can compare their meaning.
+
+Question: Why do we need embeddings in RAG?
+Answer: Embeddings allow the retriever to find document chunks that are semantically similar to the user's question.
+
+Question: What is semantic search?
+Answer: Semantic search means searching by meaning instead of exact word matching.
+
+Question: What is the difference between keyword search and semantic search?
+Answer: Keyword search looks for exact word matches. Semantic search uses embeddings to find similar meaning.
+
+Question: What is an embedding model?
+Answer: An embedding model converts text into vectors. These vectors are used for similarity search and retrieval.
+
+Question: Is the embedding model the same as the LLM?
+Answer: No. The embedding model creates vectors for retrieval. The LLM generates final text answers.
+
+Question: What is a vector store?
+Answer: A vector store is a database that stores embeddings and supports similarity search.
+
+Question: What is a retriever?
+Answer: A retriever fetches relevant documents for a user query. In RAG, it usually searches a vector store.
+
+Question: What is chunking?
+Answer: Chunking means splitting long documents into smaller text pieces before creating embeddings.
+
+Question: Why is chunking important?
+Answer: Chunking makes retrieval more precise. It helps the retriever find the most relevant part of a document instead of searching one huge text.
+
+Question: What is chunk overlap?
+Answer: Chunk overlap repeats some text between neighboring chunks so context is not lost at chunk boundaries.
+
+Question: What does k mean in retrieval?
+Answer: k is the number of chunks returned by the retriever. If k=3, the retriever returns the top 3 matching chunks.
+
+Question: What is cosine similarity?
+Answer: Cosine similarity measures how close two vectors are based on their direction. It is commonly used to compare embeddings.
+
+Question: What is the difference between sparse and dense vectors?
+Answer: Sparse vectors have many zeros and often represent word counts. Dense vectors have continuous values and are used by modern embedding models.
+
+Question: What is one-hot encoding?
+Answer: One-hot encoding represents each word as a vector with one 1 and many 0s. It cannot capture semantic similarity well.
+
+Question: What is TF-IDF?
+Answer: TF-IDF is a traditional text representation method that gives higher weight to important words in a document.
+
+Question: What is Word2Vec?
+Answer: Word2Vec is a dense word embedding method that learns word vectors from surrounding context.
+
+Question: What is CBOW?
+Answer: CBOW is a Word2Vec architecture that predicts a target word from surrounding words.
+
+Question: What is Skip-gram?
+Answer: Skip-gram is a Word2Vec architecture that predicts surrounding words from a target word.
+
+Question: What is GloVe?
+Answer: GloVe is a word embedding method that learns from global word co-occurrence statistics.
+
+Question: What is FastText?
+Answer: FastText represents words using character n-grams, which helps with rare and unseen words.
+
+Question: What are static embeddings?
+Answer: Static embeddings give one fixed vector per word, regardless of context.
+
+Question: What are contextual embeddings?
+Answer: Contextual embeddings change depending on the sentence. The same word can have different vectors in different contexts.
+
+Question: What are sentence embeddings?
+Answer: Sentence embeddings represent full sentences or paragraphs as vectors. They are useful for semantic search and RAG.
+
+Question: What is all-MiniLM-L6-v2?
+Answer: all-MiniLM-L6-v2 is a lightweight Sentence Transformers embedding model commonly used for semantic search and RAG.
+
+Question: What is all-mpnet-base-v2?
+Answer: all-mpnet-base-v2 is a stronger but heavier Sentence Transformers embedding model for sentence and paragraph embeddings.
+
+Question: How can I improve retrieval quality?
+Answer: Improve retrieval quality by adding clean notes, using good chunking, tuning k, using metadata, and trying a stronger embedding model.
+
+Question: Why does my RAG chatbot not know new notes?
+Answer: The vector store may not have been rebuilt after adding new notes. Delete the old Chroma folder and rerun the app.
+
+Question: Why does the retriever return wrong context?
+Answer: Possible reasons include messy notes, bad chunking, vague queries, weak embedding model, or unsuitable k value.
+
+Question: What is a reranker?
+Answer: A reranker is a model that reorders retrieved chunks based on relevance after initial vector search.
+
+Question: How should I explain embeddings in my CV project?
+Answer: You can say that you used Sentence Transformer embeddings and a Chroma vector store to enable semantic retrieval over custom AI/NLP notes for RAG-based answer generation.

@@ -1,0 +1,253 @@
+text,label
+What is RAG?,concept_explanation
+Explain retrieval augmented generation simply.,concept_explanation
+What is an embedding in NLP?,concept_explanation
+Explain embeddings with an example.,concept_explanation
+What is a vector store?,concept_explanation
+What is a retriever in LangChain?,concept_explanation
+What is semantic search?,concept_explanation
+What is the difference between keyword search and semantic search?,concept_explanation
+What is chunking in RAG?,concept_explanation
+Why do we split documents before embedding?,concept_explanation
+What does chunk overlap mean?,concept_explanation
+What is LCEL in LangChain?,concept_explanation
+Explain RunnablePassthrough simply.,concept_explanation
+What is ChatPromptTemplate?,concept_explanation
+What is MessagesPlaceholder?,concept_explanation
+What is chat history in a chatbot?,concept_explanation
+What is the difference between HumanMessage and AIMessage?,concept_explanation
+What is SystemMessage used for?,concept_explanation
+What is a Transformer?,concept_explanation
+Explain self-attention simply.,concept_explanation
+What are query key and value in attention?,concept_explanation
+What is multi-head attention?,concept_explanation
+What is positional encoding?,concept_explanation
+What is masked self-attention?,concept_explanation
+What is the difference between BERT and GPT?,concept_explanation
+Why is BERT not usually used for text generation?,concept_explanation
+What is DistilBERT?,concept_explanation
+What is fine-tuning?,concept_explanation
+What is transfer learning?,concept_explanation
+What is LoRA?,concept_explanation
+What is PEFT?,concept_explanation
+What is the difference between RAG and fine-tuning?,concept_explanation
+What is a context window?,concept_explanation
+Why do we trim chat history?,concept_explanation
+What is cosine similarity?,concept_explanation
+What is top-k retrieval?,concept_explanation
+What is Chroma database?,concept_explanation
+What is FAISS?,concept_explanation
+What is a document loader?,concept_explanation
+What is metadata in LangChain documents?,concept_explanation
+How does a RAG chatbot answer questions?,concept_explanation
+Explain vector embeddings in simple words.,concept_explanation
+What is the role of the LLM in RAG?,concept_explanation
+What is the role of the embedding model in RAG?,concept_explanation
+How does the retriever find relevant chunks?,concept_explanation
+What is a history-aware retriever?,concept_explanation
+What is the difference between static and contextual embeddings?,concept_explanation
+What is Word2Vec?,concept_explanation
+What is GloVe?,concept_explanation
+What is FastText?,concept_explanation
+Why am I getting ModuleNotFoundError?,code_help
+ModuleNotFoundError: No module named langchain.chains,code_help
+My Streamlit app is showing an import error.,code_help
+Why cannot I import load_text_documents from src.ingestion?,code_help
+NameError: name file_path is not defined,code_help
+TypeError expected string or bytes-like object,code_help
+Chroma got an unexpected keyword argument persist_dictionary,code_help
+Why is my vectorstore not rebuilding?,code_help
+How do I fix missing GROQ_API_KEY?,code_help
+Why is my .env file not loading?,code_help
+How to fix Streamlit secrets error?,code_help
+Why does st.session_state not remember my messages?,code_help
+"My chatbot response is empty, how to debug?",code_help
+Why is retriever returning irrelevant documents?,code_help
+Why is my context showing Document objects instead of clean text?,code_help
+How do I format retrieved docs in LangChain?,code_help
+Why does create_documents fail with Document objects?,code_help
+Should I use split_documents or create_documents?,code_help
+How do I fix an indentation error in Python?,code_help
+Why is my import from src not working?,code_help
+How to create __init__.py inside src folder?,code_help
+How do I run streamlit from the project root?,code_help
+Why does my app rerun every time I type?,code_help
+How do I clear Streamlit cache?,code_help
+Why does my chatbot still use old notes?,code_help
+How to delete Chroma vectorstore and rebuild it?,code_help
+How do I add new txt files to data notes?,code_help
+Why is my retriever not finding the new file?,code_help
+How to check what documents were retrieved?,code_help
+How to display retrieved sources in Streamlit?,code_help
+How do I fix tokenizer loading error?,code_help
+Why does DistilBERT training crash?,code_help
+How to fix train_test_split stratify error?,code_help
+Why is my dataset label column not found?,code_help
+How do I install transformers in the correct environment?,code_help
+Why does pip install in one env but Jupyter uses another?,code_help
+How to activate chat_env in Windows?,code_help
+How do I fix torch not installed error?,code_help
+How do I save a trained model?,code_help
+How to load my trained DistilBERT model?,code_help
+Why is response.content not working?,code_help
+When should I use StrOutputParser?,code_help
+Why is my LangChain chain returning AIMessage?,code_help
+How do I fix a missing context variable in prompt?,code_help
+Why does ChatPromptTemplate say missing variables?,code_help
+How to pass chat_history to the chain?,code_help
+How do I debug rag_chain.py?,code_help
+Why is RunnablePassthrough confusing?,code_help
+How to fix syntax error in app.py?,code_help
+My app crashes after adding intent classifier.,code_help
+How can I deploy this chatbot?,project_guidance
+How should I improve this RAG project?,project_guidance
+What should I add next to my chatbot project?,project_guidance
+How do I organize my chatbot project folder?,project_guidance
+What files should be in src folder?,project_guidance
+Where should I place the training file?,project_guidance
+How do I prepare a README for this chatbot?,project_guidance
+How can I make the UI look more professional?,project_guidance
+How do I add a source viewer to Streamlit?,project_guidance
+How can I add chat history to my chatbot?,project_guidance
+How do I add history-aware retriever?,project_guidance
+How do I add DistilBERT to this chatbot?,project_guidance
+How do I create an intent dataset?,project_guidance
+How many examples do I need per class?,project_guidance
+How do I evaluate the intent classifier?,project_guidance
+How should I split train and test data?,project_guidance
+How do I make this project GitHub ready?,project_guidance
+What should I write in requirements.txt?,project_guidance
+Should I upload the vectorstore folder to GitHub?,project_guidance
+Should I upload my .env file to GitHub?,project_guidance
+How do I add Streamlit secrets?,project_guidance
+How do I deploy on Streamlit Cloud?,project_guidance
+How do I make a demo video for this project?,project_guidance
+What screenshots should I add to the README?,project_guidance
+How do I add architecture diagram to README?,project_guidance
+How can I make the chatbot answer from my notes?,project_guidance
+How do I add more data to RAG?,project_guidance
+How do I create better notes for RAG?,project_guidance
+What topics should I include in data notes?,project_guidance
+How do I test if RAG is working?,project_guidance
+How should I tune chunk size?,project_guidance
+How should I tune retriever k?,project_guidance
+Should I use Chroma or FAISS?,project_guidance
+Should I use MiniLM or mpnet embeddings?,project_guidance
+How do I make the project more ML focused?,project_guidance
+How do I make the project more GenAI focused?,project_guidance
+What should be version 1 of my chatbot?,project_guidance
+What should be version 2 of my chatbot?,project_guidance
+How do I add feedback buttons to the chatbot?,project_guidance
+How do I log user questions?,project_guidance
+How do I analyze chatbot usage later?,project_guidance
+How do I make the app faster?,project_guidance
+How do I reduce API cost?,project_guidance
+How do I handle long chat history?,project_guidance
+How do I improve retrieval quality?,project_guidance
+How do I add a fallback response?,project_guidance
+How do I handle greetings separately?,project_guidance
+How do I test my chatbot before deployment?,project_guidance
+What should I do after the chatbot is ready?,project_guidance
+How do I present this project in an interview?,project_guidance
+Can I write this project in my CV?,career_cv
+How should I describe LangChain in my resume?,career_cv
+Give me a CV bullet for this chatbot project.,career_cv
+How can I explain this project in an interview?,career_cv
+Which job role does this chatbot project support?,career_cv
+Is this project good for GenAI roles?,career_cv
+Is this project good for ML engineer roles?,career_cv
+Is this project good for data scientist roles?,career_cv
+How should I write RAG in my CV?,career_cv
+How should I write embeddings in my CV?,career_cv
+How should I write vector database experience in my CV?,career_cv
+How should I write Streamlit deployment in my CV?,career_cv
+How do I mention DistilBERT fine-tuning in my CV?,career_cv
+Can I say I have LangChain experience?,career_cv
+Can I say I built an LLM application?,career_cv
+What project title should I use in my CV?,career_cv
+Make this project sound professional.,career_cv
+Give me ATS friendly wording for this project.,career_cv
+What skills does this chatbot prove?,career_cv
+How do I add this project to LinkedIn?,career_cv
+Write a GitHub description for this chatbot.,career_cv
+Write a short portfolio description.,career_cv
+How can I explain RAG simply to a recruiter?,career_cv
+How can I explain this chatbot to a nontechnical person?,career_cv
+How can I explain this chatbot to an engineer?,career_cv
+What are the best CV keywords for this project?,career_cv
+Should I put this under AI projects or ML projects?,career_cv
+What should I include in project achievements?,career_cv
+How do I mention source-grounded answers?,career_cv
+How do I mention chat history in CV?,career_cv
+How do I mention semantic search in CV?,career_cv
+How do I mention Chroma in CV?,career_cv
+How do I mention Hugging Face embeddings in CV?,career_cv
+How do I mention Groq API in CV?,career_cv
+How do I mention deployment in CV?,career_cv
+How do I mention model training in CV?,career_cv
+How do I describe intent classification?,career_cv
+How do I explain DistilBERT as a classifier?,career_cv
+How should I answer if interviewer asks why DistilBERT?,career_cv
+How do I make my CV stronger with this project?,career_cv
+Should I include this project in Indeed profile?,career_cv
+How do I write this project for AI engineer jobs?,career_cv
+How do I write this project for data scientist jobs?,career_cv
+How do I write this project for ML engineer jobs?,career_cv
+What is the best one-line summary for this project?,career_cv
+Give me three bullet points for this project.,career_cv
+Give me a concise CV version.,career_cv
+Give me a detailed CV version.,career_cv
+How do I write technologies used?,career_cv
+How do I write impact for this project?,career_cv
+How can this project help me get interviews?,career_cv
+Hi,general_chat
+Hello,general_chat
+Hey,general_chat
+Good morning,general_chat
+Good evening,general_chat
+How are you?,general_chat
+What are you doing?,general_chat
+Thank you,general_chat
+Thanks a lot,general_chat
+Okay,general_chat
+Cool,general_chat
+Great,general_chat
+Nice,general_chat
+I understand,general_chat
+I do not understand,general_chat
+Can you help me?,general_chat
+Let's continue,general_chat
+See you later,general_chat
+Bye,general_chat
+Goodbye,general_chat
+I am tired,general_chat
+I am confused,general_chat
+I am feeling overwhelmed,general_chat
+Please explain slowly,general_chat
+Can you make it simpler?,general_chat
+Can you give an example?,general_chat
+Can you repeat?,general_chat
+I got it,general_chat
+Not clear,general_chat
+Very helpful,general_chat
+Let's do the next step,general_chat
+What should I do now?,general_chat
+Can we pause?,general_chat
+I will come back later,general_chat
+This is difficult,general_chat
+This is interesting,general_chat
+I am happy it worked,general_chat
+It worked,general_chat
+It is not working,general_chat
+Please motivate me,general_chat
+I need focus,general_chat
+Give me a small task,general_chat
+What is next?,general_chat
+Can you summarize?,general_chat
+Make it short,general_chat
+Explain like a beginner,general_chat
+Explain with analogy,general_chat
+Can you check this?,general_chat
+Are you sure?,general_chat
+Let's build it,general_chat
+Done,general_chat

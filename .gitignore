@@ -1,0 +1,10 @@
+.env
+chat_env/
+__pycache__/
+*.pyc
+vectorstore/
+logs/
+.streamlit/secrets.toml
+
+models/distilbert_intent/model.safetensors
+models/distilbert_intent/checkpoint-*/

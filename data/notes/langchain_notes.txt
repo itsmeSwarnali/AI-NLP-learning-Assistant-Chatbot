@@ -1,0 +1,3 @@
+LangChain is a framework for building LLM applications. It provides components such as prompt templates, chains, retrievers, document loaders, vector stores, and message history.
+
+RunnableWithMessageHistory wraps a chain and automatically manages chat history for a session.

@@ -1,0 +1,49 @@
+Transformer RAG Cheatsheet
+
+Core idea:
+Transformer = attention-based neural network for sequence modeling.
+
+Main formula idea:
+Tokens attend to other tokens using Query, Key, and Value vectors.
+
+Simple flow:
+Text -> tokens -> embeddings + positional encoding -> attention blocks -> contextual representations -> output
+
+Important terms:
+- Token: unit of text processed by the model.
+- Embedding: vector representation of a token or sentence.
+- Positional encoding: position/order information added to token embeddings.
+- Self-attention: each token attends to other tokens in the same sequence.
+- Query: what a token searches for.
+- Key: what a token offers for matching.
+- Value: information passed forward.
+- Attention score: similarity between query and key.
+- Multi-head attention: multiple attention mechanisms running in parallel.
+- Masked attention: prevents looking at future tokens.
+- Cross-attention: decoder attends to encoder outputs.
+- Encoder: reads and represents input.
+- Decoder: generates output.
+- Context window: maximum text the model can read at once.
+
+Model families:
+- BERT: encoder-only, language understanding.
+- RoBERTa: improved BERT-style encoder.
+- GPT: decoder-only, text generation.
+- T5: encoder-decoder, text-to-text.
+- BART: encoder-decoder, denoising and generation.
+
+For RAG:
+- Embedding model retrieves relevant context.
+- Vector store saves embeddings.
+- Retriever fetches relevant chunks.
+- LLM generates final answer.
+- Transformer models are used both for embeddings and answer generation.
+
+Best explanation:
+A Transformer does not read text word by word like an RNN. Instead, it lets every token look at other tokens through attention, then builds context-aware representations.
+
+Common interview answer:
+Transformers are powerful because self-attention allows direct interaction between tokens, parallel training, and strong contextual representations. Their main limitation is that attention becomes expensive for very long sequences.
+
+CV wording:
+Implemented a RAG chatbot using Transformer-based embeddings, vector retrieval, LangChain chains, and an LLM for context-grounded response generation.

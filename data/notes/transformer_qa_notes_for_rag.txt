@@ -1,0 +1,82 @@
+Transformer Q&A Notes for RAG Chatbot
+
+Question: What is a Transformer?
+Answer: A Transformer is a neural network architecture for sequence modeling. It uses attention mechanisms instead of recurrence and is the foundation of models such as BERT, GPT, T5, and BART.
+
+Question: Why are Transformers important in NLP?
+Answer: Transformers are important because they can process sequences in parallel, capture long-range dependencies, and create contextual representations of text.
+
+Question: What problem did Transformers solve?
+Answer: Transformers reduced the limitations of RNNs and LSTMs, such as slow sequential processing and difficulty learning long-range dependencies.
+
+Question: What is self-attention?
+Answer: Self-attention is a mechanism where each token in a sequence attends to other tokens in the same sequence to decide which words are important for understanding context.
+
+Question: What are Query, Key, and Value in attention?
+Answer: Query represents what a token is looking for, Key represents what a token offers, and Value represents the information passed forward if that token is attended to.
+
+Question: What is scaled dot-product attention?
+Answer: Scaled dot-product attention computes similarity between queries and keys, scales the scores, applies softmax, and uses the resulting weights to combine value vectors.
+
+Question: What is multi-head attention?
+Answer: Multi-head attention uses multiple attention heads so the model can learn different relationships between tokens at the same time.
+
+Question: Why do Transformers need positional encoding?
+Answer: Transformers need positional encoding because self-attention does not naturally know the order of tokens. Positional encoding adds information about token positions.
+
+Question: What is masked self-attention?
+Answer: Masked self-attention prevents a model from looking at future tokens. It is used in decoder-only models such as GPT for next-token prediction.
+
+Question: What is cross-attention?
+Answer: Cross-attention is used in encoder-decoder Transformers. The decoder attends to the encoder output while generating the target sequence.
+
+Question: What is the Transformer encoder?
+Answer: The Transformer encoder reads the input sequence and creates contextual token representations using self-attention and feed-forward layers.
+
+Question: What is the Transformer decoder?
+Answer: The Transformer decoder generates output tokens step by step using masked self-attention, cross-attention, and feed-forward layers.
+
+Question: What is BERT?
+Answer: BERT is an encoder-only Transformer designed for language understanding tasks. It is pretrained using masked language modeling.
+
+Question: What is GPT?
+Answer: GPT is a decoder-only Transformer designed for text generation. It is trained to predict the next token using previous tokens.
+
+Question: What is T5?
+Answer: T5 is an encoder-decoder Transformer that converts every NLP task into a text-to-text format.
+
+Question: What is BART?
+Answer: BART is an encoder-decoder Transformer designed for denoising and generation tasks. It is often strong for summarization.
+
+Question: What is the difference between BERT and GPT?
+Answer: BERT is encoder-only and mainly used for understanding tasks. GPT is decoder-only and mainly used for text generation.
+
+Question: What is the difference between encoder-only and decoder-only Transformers?
+Answer: Encoder-only models understand input text and produce representations. Decoder-only models generate text token by token.
+
+Question: What is a context window?
+Answer: A context window is the maximum amount of text a Transformer model can process at once.
+
+Question: Why is self-attention expensive for long texts?
+Answer: Self-attention compares every token with every other token, so its cost grows quadratically with sequence length.
+
+Question: How are Transformers used in RAG?
+Answer: In RAG, Transformer-based embedding models can convert text into vectors, and Transformer-based LLMs can generate answers using retrieved context.
+
+Question: Is an embedding model the same as an LLM?
+Answer: No. An embedding model converts text into vectors for retrieval. An LLM generates text responses.
+
+Question: Why is GPT good for chatbots?
+Answer: GPT-style models are good for chatbots because they are trained to generate text by predicting the next token and can produce fluent responses.
+
+Question: Why is BERT not usually used as a chatbot generator?
+Answer: BERT is designed for understanding, not autoregressive text generation. It is better for classification, token classification, and extractive QA.
+
+Question: What is residual connection in Transformers?
+Answer: A residual connection adds a layer's input back to its output, helping gradients flow and making deep models easier to train.
+
+Question: What is layer normalization?
+Answer: Layer normalization normalizes hidden representations and helps stabilize Transformer training.
+
+Question: What is a feed-forward network in a Transformer block?
+Answer: It is a neural network applied to each token representation after attention to add non-linearity and improve representation learning.

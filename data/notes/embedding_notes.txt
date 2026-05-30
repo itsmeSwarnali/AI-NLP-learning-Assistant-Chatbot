@@ -1,0 +1,168 @@
+Embedding Notes for RAG Chatbot
+
+Overview
+Embeddings are numerical vector representations of text. They convert words, sentences, paragraphs, or documents into lists of numbers so computers can compare meaning. In a RAG system, embeddings are used to search relevant information from a knowledge base before sending context to an LLM.
+
+Why Embeddings Matter
+LLMs generate text, but they do not automatically know your private documents. RAG solves this by retrieving relevant document chunks and passing them to the LLM. Embeddings make retrieval possible by converting both the user question and document chunks into vectors. Similar meanings should have similar vectors.
+
+Simple Example
+Text: "What is RAG?"
+Embedding: [0.12, -0.44, 0.87, ...]
+
+Text: "Explain retrieval augmented generation"
+Embedding: [0.10, -0.41, 0.84, ...]
+
+These two texts have similar meaning, so their vectors should be close in vector space.
+
+Embeddings vs LLMs
+An embedding model converts text into vectors.
+An LLM generates natural language answers.
+A vector store saves and searches embeddings.
+A retriever fetches relevant documents.
+A RAG chain combines retrieved context, user question, chat history, and the LLM.
+
+Semantic Search
+Semantic search means searching by meaning instead of exact word matching. If a user asks "How does chatbot memory work?" and your notes say "Conversation history stores previous user and assistant messages", embeddings can help the retriever find the note because the meanings are related.
+
+Keyword Search vs Semantic Search
+Keyword search looks for exact words. If the exact word is not present, it may fail.
+Semantic search uses embeddings to find meaning. It can find relevant information even when the words are different.
+
+RAG Embedding Pipeline
+1. Load documents from files.
+2. Split documents into smaller chunks.
+3. Convert each chunk into an embedding vector.
+4. Store chunk vectors in a vector database such as Chroma or FAISS.
+5. Convert the user question into an embedding.
+6. Compare the question vector with stored chunk vectors.
+7. Retrieve the most similar chunks.
+8. Send the retrieved chunks to the LLM as context.
+9. Generate the final answer.
+
+Documents
+In LangChain, a Document stores page_content and metadata. page_content is the actual text. metadata can store source file name, page number, topic, or section name. Metadata is useful because it helps show where retrieved information came from.
+
+Text Splitting
+Long documents should be split before embedding. If a chunk is too long, it may contain many unrelated ideas. If a chunk is too short, it may lose context. A good beginner setting is chunk_size around 500 to 1000 characters and chunk_overlap around 50 to 150 characters.
+
+Chunk Size
+Chunk size controls how large each piece of text is. Smaller chunks give more precise retrieval but may miss context. Larger chunks provide more context but may include unrelated information.
+
+Chunk Overlap
+Chunk overlap repeats some text between neighboring chunks. It helps preserve meaning when an important explanation is split between two chunks.
+
+Embedding Model
+An embedding model converts text into vectors. For a beginner RAG chatbot, sentence-transformers/all-MiniLM-L6-v2 is a good choice because it is lightweight and fast. A stronger but heavier option is sentence-transformers/all-mpnet-base-v2.
+
+Important Rule
+Use the same embedding model for indexing documents and embedding user queries. If the documents are embedded with one model and the question is embedded with another incompatible model, retrieval quality can become poor.
+
+Vector Store
+A vector store is a database for embeddings. It stores document vectors and supports similarity search. Common vector stores include Chroma, FAISS, Pinecone, Weaviate, and Qdrant. For a beginner Streamlit project, Chroma or FAISS is usually enough.
+
+Retriever
+A retriever fetches relevant documents for a query. In LangChain, a vector store can be converted into a retriever using as_retriever(). The retriever searches the vector store and returns the most relevant document chunks.
+
+Similarity Search
+Similarity search compares the user question vector with document chunk vectors. The closest vectors are returned as relevant documents. Similarity can be measured using cosine similarity, dot product, or distance depending on the vector store and embedding model.
+
+Cosine Similarity
+Cosine similarity measures the angle between two vectors. If two vectors point in a similar direction, they are considered semantically similar. Cosine similarity is often used in embedding-based search.
+
+Top-k Retrieval
+The value k controls how many chunks are returned. If k=3, the retriever returns the top 3 most relevant chunks. A larger k gives the LLM more context but may include irrelevant information. A smaller k is cleaner but may miss useful context.
+
+Good beginner values:
+k = 3 for normal questions
+k = 4 or 5 if answers often lack context
+k = 1 or 2 if retrieved context is noisy
+
+Metadata in RAG
+Metadata improves transparency. If a retrieved chunk has metadata like source file or topic, the chatbot can show the source to the user. This is useful for debugging and for trustworthy answers.
+
+Sparse Vectors
+Sparse vectors have many zero values. One-hot encoding and TF-IDF are examples. Sparse methods are useful for exact keyword-based search, but they may struggle with semantic similarity.
+
+Dense Vectors
+Dense vectors have many non-zero continuous values. Modern embedding models produce dense vectors. Dense vectors are useful for semantic search because they represent meaning in a compact numerical space.
+
+One-Hot Encoding
+One-hot encoding represents each word as a unique vector with one 1 and many 0s. It is simple but cannot capture word similarity. For example, "cat" and "kitten" are not automatically close in one-hot space.
+
+TF-IDF
+TF-IDF stands for Term Frequency-Inverse Document Frequency. It gives high weight to words that appear often in one document but not in many other documents. It is useful for keyword search and as a baseline, but it mostly depends on word overlap.
+
+Word2Vec
+Word2Vec is a dense word embedding method. It learns word vectors by predicting words from context. The two common architectures are CBOW and Skip-gram.
+
+CBOW
+Continuous Bag of Words predicts a target word from surrounding context words. It is usually faster.
+
+Skip-gram
+Skip-gram predicts surrounding context words from a target word. It can work well for rare words.
+
+GloVe
+GloVe stands for Global Vectors. It learns embeddings from global word co-occurrence statistics. It combines ideas from count-based and prediction-based methods.
+
+FastText
+FastText represents words using character n-grams. This helps with rare words, misspellings, and unseen words because it can use subword information.
+
+Static Embeddings
+Static embeddings give one fixed vector for each word. Word2Vec and GloVe are static embeddings. The limitation is that the word "bank" has the same vector in "river bank" and "bank account".
+
+Contextual Embeddings
+Contextual embeddings change depending on the sentence. BERT-style models generate different representations for the same word in different contexts. This is important because many words have multiple meanings.
+
+Sentence Embeddings
+Sentence embeddings represent full sentences or paragraphs as vectors. They are very useful for RAG because user questions and document chunks usually contain more than one word.
+
+Sentence Transformers
+Sentence Transformers are models designed to create useful sentence and paragraph embeddings. They are commonly used for semantic search, clustering, and RAG. Models like all-MiniLM-L6-v2 and all-mpnet-base-v2 are popular options.
+
+Embedding Dimensions
+The embedding dimension is the length of the vector. For example, all-MiniLM-L6-v2 creates 384-dimensional vectors, while all-mpnet-base-v2 creates 768-dimensional vectors. Larger vectors may capture more information but can be slower and require more storage.
+
+Embedding Quality
+Better embedding quality usually means better retrieval. However, retrieval also depends on clean data, good chunking, metadata, and suitable k value. A stronger embedding model cannot fix messy notes completely.
+
+Common RAG Retrieval Problems
+1. The answer is missing information because the relevant note is not in the data.
+2. The retriever returns irrelevant chunks because notes are messy or chunking is poor.
+3. The query is vague, such as "tell me more about it", and the retriever does not know what "it" means.
+4. k is too small and not enough context is retrieved.
+5. k is too large and irrelevant context confuses the LLM.
+6. The vector store was not rebuilt after adding new notes.
+
+How to Improve RAG Retrieval
+1. Add clean topic-wise notes.
+2. Use clear headings inside notes.
+3. Split documents into good chunk sizes.
+4. Use metadata such as source and topic.
+5. Tune k.
+6. Try a stronger embedding model.
+7. Add Q&A-style notes for common questions.
+8. Use a history-aware retriever for follow-up questions.
+9. Delete and rebuild the vector store after adding new data.
+10. Use a reranker for advanced retrieval.
+
+Reranker
+A reranker is a second model that reorders retrieved documents based on relevance. First, the vector store retrieves candidate chunks. Then the reranker scores and sorts them. Rerankers can improve answer quality but add complexity.
+
+Embeddings in Your Chatbot Project
+Your chatbot uses notes inside data/notes. These notes are loaded as documents, split into chunks, embedded using a Sentence Transformer model, and stored in Chroma. When the user asks a question, the retriever returns relevant chunks and the LLM answers using those chunks.
+
+Recommended Beginner Setup
+Embedding model: sentence-transformers/all-MiniLM-L6-v2
+Vector store: Chroma
+Chunk size: 700
+Chunk overlap: 100
+Retriever k: 3
+Data format: clean .txt notes
+Metadata: source file name
+
+README Explanation
+The chatbot uses Sentence Transformer embeddings to convert AI/NLP notes into dense vectors. These vectors are stored in a Chroma vector database. When the user asks a question, the query is embedded using the same embedding model and compared with stored document vectors. The retriever returns the most semantically relevant chunks, which are then passed to the LLM as context for answer generation.
+
+CV Explanation
+Implemented semantic retrieval using Hugging Face Sentence Transformer embeddings and Chroma vector store to retrieve relevant AI/NLP notes for RAG-based answer generation.

@@ -1,0 +1,164 @@
+LANGCHAIN Q&A NOTES FOR RAG
+===========================
+
+Question: What is LangChain?
+Answer: LangChain is a framework for building applications with language models. It helps connect prompts, LLMs, retrievers, vector stores, documents, tools, and memory.
+
+Question: Why do we use LangChain in a chatbot?
+Answer: We use LangChain to organize the chatbot pipeline. It helps connect user input, prompts, retrieval, LLM calls, output parsing, and chat history.
+
+Question: What is a Document in LangChain?
+Answer: A Document is an object with page_content and metadata. page_content stores the text, while metadata stores information such as source file name or topic.
+
+Question: What is data ingestion?
+Answer: Data ingestion means loading external data into the application. In a RAG chatbot, it can mean reading .txt files, PDFs, webpages, or notes and converting them into Document objects.
+
+Question: What is text splitting?
+Answer: Text splitting means breaking large documents into smaller chunks before embedding and retrieval. It helps the retriever find precise information.
+
+Question: Why do we use chunk overlap?
+Answer: Chunk overlap repeats a small part of text between neighboring chunks so context is not lost at boundaries.
+
+Question: What is an embedding?
+Answer: An embedding is a numerical vector representation of text. It lets the system compare text by meaning.
+
+Question: What is a vector store?
+Answer: A vector store stores embeddings and supports semantic similarity search. Examples include Chroma, FAISS, Pinecone, Qdrant, and Weaviate.
+
+Question: What is Chroma?
+Answer: Chroma is a vector database that can store document embeddings and perform similarity search. It is often used for local RAG projects.
+
+Question: What is a retriever?
+Answer: A retriever fetches relevant documents for a query. It can be created from a vector store using as_retriever.
+
+Question: Is a retriever a copy of the vector store?
+Answer: No. A retriever is an interface or wrapper that knows how to search the vector store and return relevant documents.
+
+Question: What does vectorstore.as_retriever() do?
+Answer: It converts a vector store into a retriever object that can be used in LangChain chains.
+
+Question: What does search_kwargs={'k': 3} mean?
+Answer: It means the retriever should return the top 3 most relevant document chunks.
+
+Question: What is a prompt template?
+Answer: A prompt template is a reusable prompt with placeholders such as {question} and {context}. These placeholders are filled at runtime.
+
+Question: What is ChatPromptTemplate?
+Answer: ChatPromptTemplate creates structured chat prompts using system, human, and assistant messages.
+
+Question: What is a system message?
+Answer: A system message gives instructions to the assistant, such as its role, style, and rules.
+
+Question: What is a human message?
+Answer: A human message represents a user input.
+
+Question: What is an AI message?
+Answer: An AI message represents a previous assistant reply.
+
+Question: What is MessagesPlaceholder?
+Answer: MessagesPlaceholder is a placeholder in a prompt where chat history messages are inserted.
+
+Question: Why use MessagesPlaceholder for chat history?
+Answer: It helps the model see previous messages and understand follow-up questions.
+
+Question: What is LCEL?
+Answer: LCEL means LangChain Expression Language. It allows components to be connected with the pipe operator, such as prompt | llm | parser.
+
+Question: What does the pipe operator mean in LangChain?
+Answer: The pipe operator sends the output of one component into the next component.
+
+Question: What is RunnablePassthrough?
+Answer: RunnablePassthrough passes input forward unchanged. It is useful when you want to keep original input while adding extra values like retrieved context.
+
+Question: What does RunnablePassthrough.assign(context=retrieve_context) mean?
+Answer: It keeps the original input dictionary and adds a new key called context using the retrieve_context function.
+
+Question: What is StrOutputParser?
+Answer: StrOutputParser converts a model output, such as AIMessage, into a plain string.
+
+Question: Why use StrOutputParser in Streamlit?
+Answer: Streamlit can directly display a clean string using st.markdown, so StrOutputParser makes the output easy to display.
+
+Question: What is RAG?
+Answer: RAG means Retrieval-Augmented Generation. It retrieves relevant external context and gives that context to the LLM before answer generation.
+
+Question: What is a RAG chain?
+Answer: A RAG chain is a pipeline that retrieves context, inserts it into a prompt, sends the prompt to an LLM, and returns an answer.
+
+Question: What is the basic RAG flow?
+Answer: The basic RAG flow is: user question -> retriever -> context -> prompt -> LLM -> answer.
+
+Question: Why does RAG reduce hallucination?
+Answer: RAG gives the LLM relevant external information, so the model is less dependent on guessing from its internal knowledge.
+
+Question: Does RAG remove hallucination completely?
+Answer: No. RAG reduces hallucination but does not eliminate it. Bad retrieval or unclear prompts can still produce poor answers.
+
+Question: What is chat history?
+Answer: Chat history is the list of previous user and assistant messages in a conversation.
+
+Question: Why does a chatbot need chat history?
+Answer: Chat history helps the chatbot understand follow-up questions and maintain context across turns.
+
+Question: What is the difference between st.session_state.messages and st.session_state.chat_history?
+Answer: st.session_state.messages is usually for displaying chat bubbles in Streamlit. st.session_state.chat_history is usually LangChain message objects sent to the LLM.
+
+Question: What is RunnableWithMessageHistory?
+Answer: RunnableWithMessageHistory is a LangChain wrapper that automatically manages chat history for a chain using session IDs.
+
+Question: Do I need get_session_history if I manually pass chat_history?
+Answer: No. If you manually create, update, and pass chat_history, you do not need get_session_history. get_session_history is needed with RunnableWithMessageHistory.
+
+Question: What is history-aware retrieval?
+Answer: History-aware retrieval rewrites follow-up questions into standalone questions before retrieval. This helps when users say things like "explain it more."
+
+Question: Why can basic RAG fail on follow-up questions?
+Answer: Basic RAG retrieves using only the latest question. If the latest question says "it", the retriever may not know what "it" refers to.
+
+Question: What is create_history_aware_retriever?
+Answer: It creates a retriever that uses chat history and an LLM to rewrite the latest question into a standalone question before retrieval.
+
+Question: What should the question rewriting prompt include?
+Answer: It should include chat_history and input. It should not include retrieved context.
+
+Question: What should the answer generation prompt include?
+Answer: It should include context, input or question, and optionally chat_history.
+
+Question: What does format_docs do?
+Answer: format_docs converts a list of Document objects into a clean text string for the prompt.
+
+Question: Why show sources in a RAG chatbot?
+Answer: Showing sources improves transparency and lets the user see which documents were used for the answer.
+
+Question: What is the difference between RAG and fine-tuning?
+Answer: RAG retrieves external knowledge at runtime. Fine-tuning updates model parameters during training.
+
+Question: Which is better for adding new knowledge, RAG or fine-tuning?
+Answer: RAG is usually better for adding or updating knowledge because you can update documents without retraining the model.
+
+Question: Can DistilBERT be used for chatbot generation?
+Answer: DistilBERT is not ideal for generating long chatbot answers. It is better for classification tasks such as intent classification.
+
+Question: How can DistilBERT improve my chatbot?
+Answer: DistilBERT can classify user intent, such as concept explanation, code help, career advice, or project guidance, and then route the question to a suitable prompt.
+
+Question: What is the best beginner RAG chain pattern?
+Answer: The best beginner pattern is RunnablePassthrough.assign(context=retrieve_context) | prompt | llm | StrOutputParser().
+
+Question: What is the role of app.py in a Streamlit RAG chatbot?
+Answer: app.py builds the user interface, handles user messages, stores session state, calls the RAG chain, and displays the answer.
+
+Question: What is the role of rag_chain.py?
+Answer: rag_chain.py creates the retriever, prompt, LLM, and chain that generates the answer.
+
+Question: What is the role of vectorstore.py?
+Answer: vectorstore.py splits documents, creates embeddings, and builds the vector store.
+
+Question: What is the role of ingestion.py?
+Answer: ingestion.py loads documents from files and converts them into LangChain Document objects.
+
+Question: What should I write in my CV for this project?
+Answer: Built a deployable AI/NLP learning chatbot using LangChain, RAG, Chroma vector store, Hugging Face embeddings, chat history, and Streamlit.
+
+Question: What makes this project valuable for GenAI roles?
+Answer: It shows end-to-end LLM application skills, including RAG, vector search, prompt engineering, chat memory, and deployment.

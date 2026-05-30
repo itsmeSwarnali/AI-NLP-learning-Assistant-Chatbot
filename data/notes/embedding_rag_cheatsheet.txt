@@ -1,0 +1,56 @@
+Embedding RAG Cheatsheet
+
+Core idea:
+Embedding = text converted into numerical vector.
+
+RAG flow:
+Documents -> chunks -> embeddings -> vector store -> retriever -> context -> LLM answer
+
+Main components:
+- Document: text plus metadata.
+- Text splitter: breaks long documents into chunks.
+- Embedding model: converts text into vectors.
+- Vector store: stores and searches vectors.
+- Retriever: fetches relevant chunks.
+- LLM: generates final answer.
+
+Good beginner setup:
+- Embedding model: sentence-transformers/all-MiniLM-L6-v2
+- Vector store: Chroma
+- chunk_size: 700
+- chunk_overlap: 100
+- k: 3
+
+Important rule:
+Use the same embedding model for documents and user queries.
+
+Keyword search:
+Searches exact words.
+
+Semantic search:
+Searches meaning using embeddings.
+
+Sparse vectors:
+One-hot encoding, TF-IDF.
+
+Dense vectors:
+Word2Vec, GloVe, FastText, Sentence Transformers.
+
+Static embeddings:
+Same word has same vector in all contexts.
+
+Contextual embeddings:
+Word representation changes depending on sentence context.
+
+Common retrieval fixes:
+- Add better notes.
+- Use Q&A-style notes.
+- Improve chunking.
+- Tune k.
+- Add metadata.
+- Rebuild vector store after adding files.
+- Try stronger embeddings.
+- Use history-aware retriever for follow-up questions.
+
+Best CV line:
+Designed a RAG pipeline with document chunking, Sentence Transformer embeddings, Chroma vector indexing, similarity-based retrieval, and context-grounded LLM response generation.

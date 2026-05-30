@@ -1,0 +1,3 @@
+RAG means Retrieval-Augmented Generation. It is a method where the system first retrieves relevant documents from a knowledge base and then sends those documents as context to the LLM. This helps the model answer using external knowledge instead of relying only on its pretrained memory.
+
+A retriever is an interface that fetches relevant documents for a user query. It can search a vector store and return the most relevant chunks.s

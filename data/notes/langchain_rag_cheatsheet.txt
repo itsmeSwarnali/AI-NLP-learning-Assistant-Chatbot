@@ -1,0 +1,96 @@
+LANGCHAIN RAG CHEATSHEET
+========================
+
+Core pipeline:
+data/notes
+-> load_text_documents()
+-> Document objects
+-> RecursiveCharacterTextSplitter
+-> chunks
+-> HuggingFaceEmbeddings
+-> Chroma vectorstore
+-> vectorstore.as_retriever()
+-> retrieve_context()
+-> ChatPromptTemplate
+-> ChatGroq LLM
+-> StrOutputParser
+-> Streamlit UI
+
+Key imports:
+
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_groq import ChatGroq
+
+Document:
+Document(page_content="text", metadata={"source": "file.txt"})
+
+Text splitting:
+splitter = RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=100)
+chunks = splitter.split_documents(documents)
+
+Embeddings:
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+Vector store:
+vectorstore = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    persist_directory="vectorstore/chroma_db"
+)
+
+Retriever:
+retriever = vectorstore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 3}
+)
+
+Format docs:
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+Retrieve context:
+def retrieve_context(inputs):
+    docs = retriever.invoke(inputs["question"])
+    return format_docs(docs)
+
+Prompt:
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Use the context to answer.\n\nContext:\n{context}"),
+    MessagesPlaceholder(variable_name="chat_history"),
+    ("human", "{question}")
+])
+
+Recommended chain:
+rag_chain = (
+    RunnablePassthrough.assign(context=retrieve_context)
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+Invoke:
+answer = rag_chain.invoke({
+    "question": user_input,
+    "chat_history": st.session_state.chat_history
+})
+
+Save history:
+st.session_state.chat_history.extend([
+    HumanMessage(content=user_input),
+    AIMessage(content=answer)
+])
+
+Common errors:
+- Use split_documents for Document objects.
+- Use create_documents for raw strings.
+- Use persist_directory, not persist_dictionary.
+- If prompt has {context}, chain must provide context.
+- If using manual chat_history, get_session_history is not needed.
+- If using RunnableWithMessageHistory, get_session_history is needed.
