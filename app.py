@@ -45,6 +45,18 @@ if os.getenv("LANGSMITH_API_KEY"):
     )
 
 # =========================
+# Hugging Face model repo for DistilBERT intent classifier
+# =========================
+
+try:
+    if "INTENT_MODEL_REPO" in st.secrets:
+        os.environ["INTENT_MODEL_REPO"] = st.secrets["INTENT_MODEL_REPO"]
+except Exception:
+    # This avoids errors when running locally without Streamlit secrets.
+    pass
+
+
+# =========================
 # Streamlit page setup
 # =========================
 
