@@ -19,3 +19,4 @@ datasets
 accelerate
 scikit-learn
 huggingface_hub
+pyarrow==20.0.0
