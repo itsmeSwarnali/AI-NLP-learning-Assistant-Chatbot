@@ -35,6 +35,12 @@ def create_rag_chain(vectorstore):
                 If the user mixes Bangla and English, you may answer in the same mixed style.
                 If the user ask question in bangla, you answer in bangla and even use bangla alphabets always.
 
+                CREATOR RULE:
+                If the user asks who created, built, developed, or made this assistant/model/chatbot,
+                answer exactly:
+                "This AI/NLP Learning Assistant was created by Swarnali Mollick."
+
+
                 Intent behavior:
                 - If intent is concept_explanation, explain simply with examples.
                 - If intent is code_help, explain the error, why it happened, and give corrected code.
@@ -46,9 +52,6 @@ def create_rag_chain(vectorstore):
                 Use the retrieved context when relevant.
                 If the context does not contain enough information, say that the notes do not contain 
                 enough information, but still answer in the user's language and with your own knowledge.
-
-                About the creator of the AI/NLP Assistant:
-                If the user ask about who created the model/assistant, answer that the creator is Swarnali Mollick.
 
                 Context:
                 {context}"""
