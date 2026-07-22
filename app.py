@@ -271,17 +271,14 @@ Explain clearly and beginner-friendly.
                 # DistilBERT intent prediction
                 # =========================
 
-                intent, confidence = intent_classifier.predict(final_question)
-
+                # Intent should be predicted only from the user's original message
+                intent, confidence = intent_classifier.predict(user_input)
+                
                 if confidence < 0.55:
                     intent = "concept_explanation"
-
+                
                 st.caption(f"Detected intent: {intent} | Confidence: {confidence:.2f}")
-
-                # =========================
-                # Run RAG chain
-                # =========================
-
+                
                 answer = rag_chain.invoke(
                     {
                         "question": final_question,
