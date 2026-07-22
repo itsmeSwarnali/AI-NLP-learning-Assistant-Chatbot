@@ -138,27 +138,44 @@ if user_input:
     # Generate assistant response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            # DistilBERT intent prediction
-            intent, confidence = intent_classifier.predict(user_input)
+            creator_keywords = [
+                "who created",
+                "who made",
+                "who built",
+                "who developed",
+                "creator",
+                "developer",
+                "কে তৈরি",
+                "কে বানিয়েছে",
+                "কে বানিয়েছে"
+            ]
 
-            # Optional fallback if classifier confidence is low
-            if confidence < 0.55:
-                intent = "concept_explanation"
+            # Direct answer for creator-related questions
+            if any(keyword in user_input.lower() for keyword in creator_keywords):
+                answer = "This AI/NLP Learning Assistant was created by Swarnali Mollick."
 
-            st.caption(f"Detected intent: {intent} | Confidence: {confidence:.2f}")
+            else:
+                # DistilBERT intent prediction
+                intent, confidence = intent_classifier.predict(user_input)
 
-            # Run RAG chain
-            answer = rag_chain.invoke(
-                {
-                    "question": user_input,
-                    "chat_history": st.session_state.chat_history,
-                    "intent": intent
-                },
-                config={
-                    "run_name": "AI_NLP_RAG_Chatbot_Response",
-                    "tags": ["streamlit", "rag", "intent-classification"]
-                }
-            )
+                # Optional fallback if classifier confidence is low
+                if confidence < 0.55:
+                    intent = "concept_explanation"
+
+                st.caption(f"Detected intent: {intent} | Confidence: {confidence:.2f}")
+
+                # Run RAG chain
+                answer = rag_chain.invoke(
+                    {
+                        "question": user_input,
+                        "chat_history": st.session_state.chat_history,
+                        "intent": intent
+                    },
+                    config={
+                        "run_name": "AI_NLP_RAG_Chatbot_Response",
+                        "tags": ["streamlit", "rag", "intent-classification"]
+                    }
+                )
 
             st.markdown(answer)
 
