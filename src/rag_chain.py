@@ -47,6 +47,9 @@ def create_rag_chain(vectorstore):
                 If the context does not contain enough information, say that the notes do not contain 
                 enough information, but still answer in the user's language and with your own knowledge.
 
+                About the creator of the AI/NLP Assistant:
+                If the user ask about who created the model/assistant, answer that the creator is Swarnali Mollick.
+
                 Context:
                 {context}"""
             ),
