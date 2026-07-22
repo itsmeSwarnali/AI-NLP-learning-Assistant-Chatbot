@@ -22,3 +22,4 @@ huggingface_hub
 groq
 pillow
 streamlit>=1.44.0
+pyarrow==20.0.0
