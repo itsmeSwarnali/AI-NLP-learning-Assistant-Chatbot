@@ -11,6 +11,16 @@ from src.intent_classifier import IntentClassifier
 
 
 # =========================
+# Streamlit page setup
+# =========================
+
+st.set_page_config(
+    page_title="AI/NLP Learning Assistant",
+    page_icon="🤖",
+    layout="centered"
+)
+
+# =========================
 # Load environment variables
 # =========================
 
@@ -55,16 +65,6 @@ except Exception:
     # This avoids errors when running locally without Streamlit secrets.
     pass
 
-
-# =========================
-# Streamlit page setup
-# =========================
-
-st.set_page_config(
-    page_title="AI/NLP Learning Assistant",
-    page_icon="🤖",
-    layout="centered"
-)
 
 st.title("🤖 Hi I am an AI/NLP Learning Assistant")
 st.caption(
