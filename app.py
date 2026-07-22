@@ -152,7 +152,10 @@ if user_input:
 
             # Direct answer for creator-related questions
             if any(keyword in user_input.lower() for keyword in creator_keywords):
-                answer = "This AI/NLP Learning Assistant was created by Swarnali Mollick."
+                if any(bangla_word in user_input for bangla_word in ["কে", "তৈরি", "বানিয়েছে", "বানিয়েছে"]):
+                    answer = "এই AI/NLP Learning Assistant তৈরি করেছেন Swarnali Mollick."
+                else:
+                    answer = "This AI/NLP Learning Assistant was created by Swarnali Mollick."
 
             else:
                 # DistilBERT intent prediction
