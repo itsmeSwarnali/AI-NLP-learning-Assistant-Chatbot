@@ -20,6 +20,14 @@ st.set_page_config(
     layout="centered"
 )
 
+
+
+st.title("🤖 Hi I am an AI/NLP Learning Assistant")
+st.caption(
+    "Learn More about Large Language Models, LangChain, RAG, Embeddings, Transformers, etc."
+)
+
+
 # =========================
 # Load environment variables
 # =========================
@@ -64,12 +72,6 @@ try:
 except Exception:
     # This avoids errors when running locally without Streamlit secrets.
     pass
-
-
-st.title("🤖 Hi I am an AI/NLP Learning Assistant")
-st.caption(
-    "Learn More about Large Language Models, LangChain, RAG, Embeddings, Transformers, etc."
-)
 
 # =========================
 # Load RAG chain + classifier
