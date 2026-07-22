@@ -24,24 +24,6 @@ st.set_page_config(
 
 
 # =========================
-# Streamlit page setup
-# =========================
-
-st.set_page_config(
-    page_title="AI/NLP Learning Assistant",
-    page_icon="🤖",
-    layout="centered"
-)
-
-
-
-st.title("🤖 Hi I am an AI/NLP Learning Assistant")
-st.caption(
-    "Learn More about Large Language Models, LangChain, RAG, Embeddings, Transformers, etc."
-)
-
-
-# =========================
 # Load environment variables
 # =========================
 
@@ -76,17 +58,6 @@ if os.getenv("LANGSMITH_API_KEY"):
 
 
 # =========================
-<<<<<<< HEAD
-# Hugging Face model repo for DistilBERT intent classifier
-# =========================
-
-try:
-    if "INTENT_MODEL_REPO" in st.secrets:
-        os.environ["INTENT_MODEL_REPO"] = st.secrets["INTENT_MODEL_REPO"]
-except Exception:
-    # This avoids errors when running locally without Streamlit secrets.
-    pass
-=======
 # App title
 # =========================
 
@@ -94,7 +65,6 @@ st.title("🤖 Hi, I am a MultiModal AI/NLP Learning Assistant")
 st.caption(
     "Ask about AI/NLP, upload diagrams, screenshots, lecture notes, or images, and I will explain them."
 )
->>>>>>> 3baf43b (Add image input support to multimodal assistant)
 
 
 # =========================
@@ -212,32 +182,6 @@ if user_input or uploaded_files:
     # Generate assistant response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-<<<<<<< HEAD
-            creator_keywords = [
-                "who created",
-                "who made",
-                "who built",
-                "who developed",
-                "creator",
-                "developer",
-                "কে তৈরি",
-                "কে বানিয়েছে",
-                "কে বানিয়েছে"
-            ]
-
-            # Direct answer for creator-related questions
-            if any(keyword in user_input.lower() for keyword in creator_keywords):
-                if any(bangla_word in user_input for bangla_word in ["কে", "তৈরি", "বানিয়েছে", "বানিয়েছে"]):
-                    answer = "এই AI/NLP Learning Assistant তৈরি করেছেন Swarnali Mollick."
-                else:
-                    answer = "This AI/NLP Learning Assistant was created by Swarnali Mollick."
-
-            else:
-                # DistilBERT intent prediction
-                intent, confidence = intent_classifier.predict(user_input)
-
-                # Optional fallback if classifier confidence is low
-=======
 
             creator_keywords = [
                 "who created",
@@ -329,18 +273,11 @@ Explain clearly and beginner-friendly.
 
                 intent, confidence = intent_classifier.predict(final_question)
 
->>>>>>> 3baf43b (Add image input support to multimodal assistant)
                 if confidence < 0.55:
                     intent = "concept_explanation"
 
                 st.caption(f"Detected intent: {intent} | Confidence: {confidence:.2f}")
 
-<<<<<<< HEAD
-                # Run RAG chain
-                answer = rag_chain.invoke(
-                    {
-                        "question": user_input,
-=======
                 # =========================
                 # Run RAG chain
                 # =========================
@@ -348,15 +285,10 @@ Explain clearly and beginner-friendly.
                 answer = rag_chain.invoke(
                     {
                         "question": final_question,
->>>>>>> 3baf43b (Add image input support to multimodal assistant)
                         "chat_history": st.session_state.chat_history,
                         "intent": intent
                     },
                     config={
-<<<<<<< HEAD
-                        "run_name": "AI_NLP_RAG_Chatbot_Response",
-                        "tags": ["streamlit", "rag", "intent-classification"]
-=======
                         "run_name": "AI_NLP_Multimodal_RAG_Response",
                         "tags": [
                             "streamlit",
@@ -364,7 +296,6 @@ Explain clearly and beginner-friendly.
                             "intent-classification",
                             "image-input"
                         ]
->>>>>>> 3baf43b (Add image input support to multimodal assistant)
                     }
                 )
 
