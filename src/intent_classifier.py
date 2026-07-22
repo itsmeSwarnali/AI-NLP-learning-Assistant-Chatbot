@@ -14,21 +14,23 @@ class IntentClassifier:
         self.model = AutoModelForSequenceClassification.from_pretrained(self.model_path)
         self.model.eval()
 
-    def predict(self, text: str):
+    def predict(self, text):
         inputs = self.tokenizer(
-            text,
-            return_tensors="pt",
-            truncation=True,
-            padding=True,
-            max_length=128,
-        )
+        text,
+        return_tensors="pt",
+        truncation=True,
+        padding=True,
+        max_length=128
+    )
 
+        # DistilBERT does not use token_type_ids
+        inputs.pop("token_type_ids", None)
+    
         with torch.no_grad():
             outputs = self.model(**inputs)
-            probs = torch.softmax(outputs.logits, dim=-1)
-            pred_id = torch.argmax(probs, dim=-1).item()
-            confidence = probs[0][pred_id].item()
-
-        label = self.model.config.id2label[pred_id]
-
-        return label, confidence
+    
+        probs = torch.softmax(outputs.logits, dim=1)
+        confidence, predicted_class = torch.max(probs, dim=1)
+    
+        intent = self.id2label[predicted_class.item()]
+        return intent, confidence.item()
