@@ -8,6 +8,19 @@ from src.ingestion import load_text_documents
 from src.vectorstore import create_vectorstore
 from src.rag_chain import create_rag_chain
 from src.intent_classifier import IntentClassifier
+from src.image_analyzer import analyze_image_with_groq
+
+
+# =========================
+# Streamlit page setup
+# Must be the first Streamlit command
+# =========================
+
+st.set_page_config(
+    page_title="MultiModal AI/NLP Learning Assistant",
+    page_icon="🤖",
+    layout="centered"
+)
 
 
 # =========================
@@ -35,7 +48,6 @@ st.caption(
 load_dotenv(override=True)
 
 # For Streamlit Cloud secrets
-# These values must be set BEFORE creating the LangChain chain/model.
 try:
     if "GROQ_API_KEY" in st.secrets:
         os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
@@ -53,7 +65,7 @@ except Exception:
     pass
 
 
-# Backward compatibility for older LangChain tutorials/versions
+# Backward compatibility for older LangChain versions
 if os.getenv("LANGSMITH_API_KEY"):
     os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGSMITH_API_KEY")
     os.environ["LANGCHAIN_TRACING_V2"] = "true"
@@ -62,7 +74,9 @@ if os.getenv("LANGSMITH_API_KEY"):
         "AI-NLP-Learning-Assistant"
     )
 
+
 # =========================
+<<<<<<< HEAD
 # Hugging Face model repo for DistilBERT intent classifier
 # =========================
 
@@ -72,6 +86,16 @@ try:
 except Exception:
     # This avoids errors when running locally without Streamlit secrets.
     pass
+=======
+# App title
+# =========================
+
+st.title("🤖 Hi, I am a MultiModal AI/NLP Learning Assistant")
+st.caption(
+    "Ask about AI/NLP, upload diagrams, screenshots, lecture notes, or images, and I will explain them."
+)
+>>>>>>> 3baf43b (Add image input support to multimodal assistant)
+
 
 # =========================
 # Load RAG chain + classifier
@@ -80,8 +104,7 @@ except Exception:
 @st.cache_resource
 def load_chain():
     """
-    Do not rebuild this expensive object every time the app refreshes.
-    Build it once and reuse it.
+    Build expensive objects once and reuse them.
     """
     documents = load_text_documents("data/notes")
     vectorstore = create_vectorstore(documents)
@@ -103,7 +126,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "chat_history" not in st.session_state:
-    # LangChain memory format: HumanMessage + AIMessage
+    # LangChain memory format
     st.session_state.chat_history = []
 
 
@@ -113,33 +136,83 @@ if "chat_history" not in st.session_state:
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+        if msg.get("content"):
+            st.markdown(msg["content"])
+
+        # Display previously uploaded images if stored
+        for image in msg.get("images", []):
+            st.image(
+                image["bytes"],
+                caption=image["name"],
+                use_container_width=True
+            )
 
 
 # =========================
-# User input
+# Chat input with plus/attachment option
 # =========================
 
-user_input = st.chat_input("Ask me about AI/NLP...")
+chat_data = st.chat_input(
+    "Ask me about AI/NLP or attach an image...",
+    accept_file=True,
+    file_type=["jpg", "jpeg", "png"]
+)
+
+if chat_data:
+    user_input = chat_data.text or ""
+    uploaded_files = chat_data.files or []
+else:
+    user_input = None
+    uploaded_files = []
 
 
 # =========================
 # Main chat logic
 # =========================
 
-if user_input:
+if user_input or uploaded_files:
+
+    # If user only uploads image but writes nothing
+    if not user_input:
+        user_input = "Please explain this image."
+
+    # Prepare image data for UI history
+    uploaded_image_records = []
+
+    for uploaded_file in uploaded_files:
+        image_bytes = uploaded_file.getvalue()
+        uploaded_image_records.append(
+            {
+                "name": uploaded_file.name,
+                "type": uploaded_file.type,
+                "bytes": image_bytes
+            }
+        )
+
     # Save user message into UI history
     st.session_state.messages.append(
-        {"role": "user", "content": user_input}
+        {
+            "role": "user",
+            "content": user_input,
+            "images": uploaded_image_records
+        }
     )
 
-    # Display user message
+    # Display current user message
     with st.chat_message("user"):
         st.markdown(user_input)
+
+        for image in uploaded_image_records:
+            st.image(
+                image["bytes"],
+                caption=image["name"],
+                use_container_width=True
+            )
 
     # Generate assistant response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
+<<<<<<< HEAD
             creator_keywords = [
                 "who created",
                 "who made",
@@ -164,21 +237,134 @@ if user_input:
                 intent, confidence = intent_classifier.predict(user_input)
 
                 # Optional fallback if classifier confidence is low
+=======
+
+            creator_keywords = [
+                "who created",
+                "who create",
+                "who made",
+                "who built",
+                "who developed",
+                "who is your creator",
+                "who is the creator",
+                "created by",
+                "made by",
+                "built by",
+                "developed by",
+                "creator",
+                "developer",
+                "owner",
+                "author",
+                "কে তৈরি",
+                "কে বানিয়েছে",
+                "কে বানিয়েছে",
+                "কে বানালো"
+            ]
+
+            user_text = user_input.lower().strip()
+
+            # =========================
+            # Direct creator answer
+            # =========================
+
+            if any(keyword in user_text for keyword in creator_keywords):
+                if any(
+                    bangla_word in user_input
+                    for bangla_word in ["কে", "তৈরি", "বানিয়েছে", "বানিয়েছে", "বানালো"]
+                ):
+                    answer = "এই AI/NLP Learning Assistant তৈরি করেছেন Swarnali Mollick."
+                else:
+                    answer = "This AI/NLP Learning Assistant was created by Swarnali Mollick."
+
+            else:
+                # =========================
+                # Image analysis
+                # =========================
+
+                image_analysis_texts = []
+
+                if uploaded_image_records:
+                    for image in uploaded_image_records:
+                        with st.spinner(f"Analyzing image: {image['name']}"):
+                            image_analysis = analyze_image_with_groq(
+                                image_bytes=image["bytes"],
+                                mime_type=image["type"],
+                                user_question=user_input
+                            )
+
+                        image_analysis_texts.append(
+                            f"Image name: {image['name']}\nImage analysis:\n{image_analysis}"
+                        )
+
+                    with st.expander("Image analysis result"):
+                        for analysis in image_analysis_texts:
+                            st.write(analysis)
+
+                # =========================
+                # Build final question for RAG
+                # =========================
+
+                if image_analysis_texts:
+                    final_question = f"""
+User question:
+{user_input}
+
+The user uploaded image(s). Below is the image analysis from a vision model:
+
+{chr(10).join(image_analysis_texts)}
+
+Now answer the user using:
+1. the image analysis,
+2. the user's question,
+3. the retrieved AI/NLP notes if relevant.
+
+Explain clearly and beginner-friendly.
+"""
+                else:
+                    final_question = user_input
+
+                # =========================
+                # DistilBERT intent prediction
+                # =========================
+
+                intent, confidence = intent_classifier.predict(final_question)
+
+>>>>>>> 3baf43b (Add image input support to multimodal assistant)
                 if confidence < 0.55:
                     intent = "concept_explanation"
 
                 st.caption(f"Detected intent: {intent} | Confidence: {confidence:.2f}")
 
+<<<<<<< HEAD
                 # Run RAG chain
                 answer = rag_chain.invoke(
                     {
                         "question": user_input,
+=======
+                # =========================
+                # Run RAG chain
+                # =========================
+
+                answer = rag_chain.invoke(
+                    {
+                        "question": final_question,
+>>>>>>> 3baf43b (Add image input support to multimodal assistant)
                         "chat_history": st.session_state.chat_history,
                         "intent": intent
                     },
                     config={
+<<<<<<< HEAD
                         "run_name": "AI_NLP_RAG_Chatbot_Response",
                         "tags": ["streamlit", "rag", "intent-classification"]
+=======
+                        "run_name": "AI_NLP_Multimodal_RAG_Response",
+                        "tags": [
+                            "streamlit",
+                            "rag",
+                            "intent-classification",
+                            "image-input"
+                        ]
+>>>>>>> 3baf43b (Add image input support to multimodal assistant)
                     }
                 )
 
@@ -186,7 +372,10 @@ if user_input:
 
     # Save assistant reply into Streamlit UI history
     st.session_state.messages.append(
-        {"role": "assistant", "content": answer}
+        {
+            "role": "assistant",
+            "content": answer
+        }
     )
 
     # Save conversation in LangChain message format
